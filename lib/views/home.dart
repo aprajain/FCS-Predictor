@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fcs_predictor/components/apicall.dart';
 import 'package:fcs_predictor/constants/customcolor.dart';
 import 'package:fcs_predictor/constants/units.dart';
@@ -125,7 +126,31 @@ class _HomeState extends State<Home> {
         "GENERATE",
         style: TextStyle(
           // color: Colors.white,
-          fontSize: Units.content(context),
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.8,
+          fontSize: Units.regularText(context) * 0.9,
+        ),
+      ),
+    );
+  }
+
+  Widget banner(image) {
+    print(image);
+    return Container(
+      height: Units.height(context) * 0.18,
+      width: Units.width(context) * 0.8,
+      margin: EdgeInsets.symmetric(horizontal: Units.width(context) * 0.02),
+      //padding: EdgeInsets.all(Units.width(context) * 0.04),
+      decoration: BoxDecoration(
+        color: CustomColor.blue,
+        //border: Border.all(),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Image(
+          image: AssetImage(image),
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -157,13 +182,31 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: Units.height(context) * 0.04),
+                SizedBox(height: Units.height(context) * 0.02),
+                Container(
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      aspectRatio: 16 / 6,
+                      enlargeCenterPage: true,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration: Duration(milliseconds: 900),
+                    ),
+                    items: [
+                      banner('images/crop1.jpg'),
+                      banner('images/crop3.jpg'),
+                      banner('images/crop2.jpg'),
+                      banner('images/crop4.jpg'),
+                    ],
+                  ),
+                ),
                 // Image(
                 //   image: AssetImage('images/visual_data.png'),
                 //   width: Units.width(context) * 0.5,
                 //   height: Units.width(context) * 0.5,
                 // ),
-                // SizedBox(height: Units.width(context) * 0.05),
+                SizedBox(height: Units.width(context) * 0.02),
                 countryDropDown(),
                 cropsDropDown(),
                 Container(
@@ -182,8 +225,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         "Start Year",
-                        style:
-                            TextStyle(fontSize: Units.content(context) * 1.11),
+                        style: TextStyle(fontSize: Units.content(context)),
                       ),
                       Text(
                         start.toString(),
@@ -209,8 +251,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         "End Year",
-                        style:
-                            TextStyle(fontSize: Units.content(context) * 1.11),
+                        style: TextStyle(fontSize: Units.content(context)),
                       ),
                       Text(
                         end.toString(),
