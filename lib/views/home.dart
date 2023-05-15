@@ -4,7 +4,9 @@ import 'package:fcs_predictor/constants/customcolor.dart';
 import 'package:fcs_predictor/constants/units.dart';
 import 'package:fcs_predictor/constants/variables.dart';
 import 'package:fcs_predictor/views/results.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
@@ -191,7 +193,7 @@ class _HomeState extends State<Home> {
                       enlargeCenterPage: true,
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enableInfiniteScroll: true,
-                      autoPlayAnimationDuration: Duration(milliseconds: 900),
+                      autoPlayAnimationDuration: Duration(milliseconds: 500),
                     ),
                     items: [
                       banner('images/crop1.jpg'),
@@ -283,14 +285,30 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(height: Units.height(context) * 0.05),
                 InkWell(
-                    onTap: () {
-                      setValue();
+                    onTap: () async {
+                      // setValue();
                       // getRequest(
-                      //     country, crop, start.toString(), end.toString());\
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => Results()));
+                      //     country, crop, start.toString(), end.toString());
+                      showCupertinoDialog(
+                          context: context,
+                          builder: (_) => const AlertDialog(
+                                content: SizedBox(
+                                    width: 30,
+                                    height: 60,
+                                    child: SpinKitFadingCircle(
+                                      color: Colors.black,
+                                      size: 60,
+                                    )),
+                              ));
+                      await getRequest(country, crop, start, end);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const Results()),
+                      );
                     },
-                    child: button()),
+                    child: Container(child: button())),
                 SizedBox(height: Units.height(context) * 0.05),
               ],
             ),

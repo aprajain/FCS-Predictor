@@ -36,7 +36,7 @@ class _ResultsState extends State<Results> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  (start++).toString(),
+                  (start + i).toString(),
                   style: TextStyle(fontSize: Units.regularText(context)),
                 ),
                 Text(
@@ -74,7 +74,7 @@ class _ResultsState extends State<Results> {
           ),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
@@ -88,8 +88,24 @@ class _ResultsState extends State<Results> {
                       top: 24,
                       bottom: 12,
                     ),
-                    child: LineChart(
-                      showAvg ? avgData() : mainData(),
+                    // child: LineChart(showAvg ? avgData() : mainData()),
+                    child: BarChart(
+                      BarChartData(
+                        barGroups: _chartGroups(),
+                        borderData: FlBorderData(
+                            border: const Border(
+                                bottom: BorderSide(), left: BorderSide())),
+                        gridData: FlGridData(show: false),
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(sideTitles: _bottomTitles),
+                          leftTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -152,6 +168,23 @@ class _ResultsState extends State<Results> {
       ),
     );
   }
+
+  List<BarChartGroupData> _chartGroups() {
+    List<BarChartGroupData> list = [];
+    for (int i = 0; i < Variables.production.length; ++i) {
+      list.add(BarChartGroupData(
+          x: Variables.start + i,
+          barRods: [BarChartRodData(toY: Variables.production[i] * 19)]));
+    }
+    return list;
+  }
+
+  SideTitles get _bottomTitles => SideTitles(
+        showTitles: true,
+        getTitlesWidget: (value, meta) {
+          return Text(value.toString());
+        },
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -345,14 +378,9 @@ class _ResultsState extends State<Results> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
+          spots: [
+            for (int i = 0; i < Variables.production.length; ++i)
+              FlSpot((i + start).toDouble(), Variables.production[i])
           ],
           isCurved: true,
           gradient: LinearGradient(
