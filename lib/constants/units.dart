@@ -18,7 +18,7 @@ class Units {
   }
 
   static double content(context) {
-    return MediaQuery.of(context).size.height * 0.02;
+    return MediaQuery.of(context).size.height * 0.018;
   }
 
   static double regularText(context) {

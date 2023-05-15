@@ -70,8 +70,9 @@ class _HomeState extends State<Home> {
         },
         items: countries.map((catagoryname) {
           return DropdownMenuItem(
-            child: new Text(
+            child: Text(
               catagoryname,
+              style: TextStyle(fontSize: Units.content(context)),
             ),
             value: catagoryname,
           );
@@ -103,8 +104,9 @@ class _HomeState extends State<Home> {
         },
         items: crops.map((catagoryname) {
           return DropdownMenuItem(
-            child: new Text(
+            child: Text(
               catagoryname,
+              style: TextStyle(fontSize: Units.content(context)),
             ),
             value: catagoryname,
           );
@@ -115,14 +117,27 @@ class _HomeState extends State<Home> {
 
   Widget button() {
     return Container(
-      margin: EdgeInsets.fromLTRB(Units.width(context) * 0.6,
-          Units.width(context) * 0.02, Units.width(context) * 0.02, 0),
+      margin: EdgeInsets.symmetric(
+          horizontal: Units.width(context) * 0.06,
+          vertical: Units.width(context) * 0.02),
       padding: EdgeInsets.symmetric(
           vertical: Units.width(context) * 0.03,
           horizontal: Units.width(context) * 0.05),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: CustomColor.green,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade600,
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 5),
+          ),
+          BoxShadow(
+            color: Colors.white,
+            offset: const Offset(-5, 0),
+          ),
+        ],
+        color: Colors.white,
       ),
       child: Text(
         "GENERATE",
@@ -215,7 +230,7 @@ class _HomeState extends State<Home> {
                   width: double.infinity,
                   margin: EdgeInsets.all(Units.width(context) * 0.03),
                   padding: EdgeInsets.symmetric(
-                      vertical: Units.width(context) * 0.05,
+                      vertical: Units.width(context) * 0.045,
                       horizontal: Units.width(context) * 0.05),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.black, width: 1),
@@ -241,7 +256,7 @@ class _HomeState extends State<Home> {
                   width: double.infinity,
                   margin: EdgeInsets.all(Units.width(context) * 0.03),
                   padding: EdgeInsets.symmetric(
-                      vertical: Units.width(context) * 0.05,
+                      vertical: Units.width(context) * 0.045,
                       horizontal: Units.width(context) * 0.05),
                   decoration: BoxDecoration(
                     // border: Border.all(color: Colors.black, width: 1),
@@ -302,10 +317,10 @@ class _HomeState extends State<Home> {
                               ));
                       await getRequest(country, crop, start, end);
                       // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const Results()),
+                        MaterialPageRoute(builder: (_) => Results()),
                       );
                     },
                     child: Container(child: button())),
