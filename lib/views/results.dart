@@ -31,7 +31,7 @@ class _ResultsState extends State<Results> {
 
   bool isPlaying = false;
 
-  int len = Variables.temp.length;
+  int len = 5;
   List temp = Variables.temp;
   List prod = Variables.production;
   int start = Variables.start;
@@ -210,22 +210,24 @@ class _ResultsState extends State<Results> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+  List<BarChartGroupData> showingGroups() => List.generate(5, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+            return makeGroupData(0, (prod[i] - 3.8) * 100000,
+                isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(1, (prod[i] - 3.8) * 100000,
+                isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
+            return makeGroupData(2, (prod[i] - 3.8) * 100000,
+                isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+            return makeGroupData(3, (prod[i] - 3.8) * 100000,
+                isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
-          case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
-          case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(4, (prod[i] - 3.8) * 100000,
+                isTouched: i == touchedIndex);
+
           default:
             return throw Error();
         }
@@ -239,34 +241,29 @@ class _ResultsState extends State<Results> {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String weekDay;
+            String year;
             switch (group.x) {
               case 0:
-                weekDay = '2030';
+                year = start.toString();
                 break;
               case 1:
-                weekDay = '2031';
+                year = (start + 1).toString();
                 break;
               case 2:
-                weekDay = '2032';
+                year = (start + 2).toString();
                 break;
               case 3:
-                weekDay = '2033';
+                year = (start + 3).toString();
                 break;
               case 4:
-                weekDay = '2034';
+                year = (start + 4).toString();
                 break;
-              case 5:
-                weekDay = '2035';
-                break;
-              case 6:
-                weekDay = '2036';
-                break;
+
               default:
                 throw Error();
             }
             return BarTooltipItem(
-              '$weekDay\n',
+              '$year\n',
               const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -333,28 +330,24 @@ class _ResultsState extends State<Results> {
       fontSize: 14,
     );
     Widget text;
+    int s = start;
     switch (value.toInt()) {
       case 0:
-        text = const Text('2030', style: style);
+        text = Text((s).toString(), style: style);
         break;
       case 1:
-        text = const Text('2031', style: style);
+        text = Text((s + 1).toString(), style: style);
         break;
       case 2:
-        text = const Text('2032', style: style);
+        text = Text((s + 2).toString(), style: style);
         break;
       case 3:
-        text = const Text('2033', style: style);
+        text = Text((s + 3).toString(), style: style);
         break;
       case 4:
-        text = const Text('2034', style: style);
+        text = Text((s + 4).toString(), style: style);
         break;
-      case 5:
-        text = const Text('2035', style: style);
-        break;
-      case 6:
-        text = const Text('2036', style: style);
-        break;
+
       default:
         text = const Text('', style: style);
         break;
@@ -399,7 +392,7 @@ class _ResultsState extends State<Results> {
       borderData: FlBorderData(
         show: false,
       ),
-      barGroups: List.generate(7, (i) {
+      barGroups: List.generate(5, (i) {
         switch (i) {
           case 0:
             return makeGroupData(
@@ -436,20 +429,7 @@ class _ResultsState extends State<Results> {
               barColor: widget.availableColors[
                   Random().nextInt(widget.availableColors.length)],
             );
-          case 5:
-            return makeGroupData(
-              5,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 6:
-            return makeGroupData(
-              6,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
+
           default:
             return throw Error();
         }

@@ -30,20 +30,16 @@ class _HomeState extends State<Home> {
   }
 
   String country = 'India';
-  List<String> countries = [
-    'India',
-    'USA',
-    'China',
-    'Russia',
-    'Bangladesh',
-  ];
+  List<String> countries = ['India', 'China', 'Australia'];
 
   String crop = 'Rice';
   List<String> crops = [
     'Rice',
     'Wheat',
-    'Corn',
-    'Barley',
+    'Bananas',
+    'Soybeans',
+    'Potatoes',
+    'Beans',
     'Maize',
   ];
 
@@ -173,9 +169,9 @@ class _HomeState extends State<Home> {
     );
   }
 
-  int start = 2030, end = 2040;
+  int start = 2030, end = 2034;
 
-  RangeValues _currentRangeValues = RangeValues(2030, 2040);
+  RangeValues _currentRangeValues = RangeValues(2030, 2034);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -241,63 +237,103 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Start Year",
+                        "Year",
                         style: TextStyle(fontSize: Units.content(context)),
                       ),
-                      Text(
-                        start.toString(),
-                        style:
-                            TextStyle(fontSize: Units.content(context) * 1.11),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (start > 2021 && end <= 2100) {
+                                setState(() {
+                                  start = start - 1;
+                                  end = end - 1;
+                                  Variables.start = start;
+                                  Variables.end = end;
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.remove_circle,
+                              size: Units.content(context) * 1.3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(width: Units.width(context) * 0.01),
+                          Text(
+                            "$start - $end",
+                            style: TextStyle(
+                                fontSize: Units.content(context) * 1.11),
+                          ),
+                          SizedBox(width: Units.width(context) * 0.01),
+                          InkWell(
+                            onTap: () {
+                              if (start >= 2021 && end < 2100) {
+                                setState(() {
+                                  start = start + 1;
+                                  end = end + 1;
+                                  Variables.start = start;
+                                  Variables.end = end;
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.add_circle,
+                              size: Units.content(context) * 1.3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(Units.width(context) * 0.03),
-                  padding: EdgeInsets.symmetric(
-                      vertical: Units.width(context) * 0.045,
-                      horizontal: Units.width(context) * 0.05),
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.lightBlue.shade50,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "End Year",
-                        style: TextStyle(fontSize: Units.content(context)),
-                      ),
-                      Text(
-                        end.toString(),
-                        style:
-                            TextStyle(fontSize: Units.content(context) * 1.11),
-                      ),
-                    ],
-                  ),
-                ),
-                RangeSlider(
-                  values: _currentRangeValues,
-                  min: 2021,
-                  max: 2100,
-                  divisions: 80,
-                  labels: RangeLabels(
-                    _currentRangeValues.start.round().toString(),
-                    _currentRangeValues.end.round().toString(),
-                  ),
-                  onChanged: (RangeValues values) {
-                    setState(() {
-                      _currentRangeValues = values;
-                      start = _currentRangeValues.start.round();
-                      end = _currentRangeValues.end.round();
+                // Container(
+                //   width: double.infinity,
+                //   margin: EdgeInsets.all(Units.width(context) * 0.03),
+                //   padding: EdgeInsets.symmetric(
+                //       vertical: Units.width(context) * 0.045,
+                //       horizontal: Units.width(context) * 0.05),
+                //   decoration: BoxDecoration(
+                //     // border: Border.all(color: Colors.black, width: 1),
+                //     borderRadius: BorderRadius.circular(10),
+                //     color: Colors.lightBlue.shade50,
+                //   ),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         "End Year",
+                //         style: TextStyle(fontSize: Units.content(context)),
+                //       ),
+                //       Text(
+                //         end.toString(),
+                //         style:
+                //             TextStyle(fontSize: Units.content(context) * 1.11),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // RangeSlider(
+                //   values: _currentRangeValues,
+                //   min: 2021,
+                //   max: 2100,
+                //   divisions: 80,
+                //   labels: RangeLabels(
+                //     _currentRangeValues.start.round().toString(),
+                //     _currentRangeValues.end.round().toString(),
+                //   ),
+                //   onChanged: (RangeValues values) {
+                //     setState(() {
+                //       _currentRangeValues = values;
+                //       start = _currentRangeValues.start.round();
+                //       end = _currentRangeValues.end.round();
 
-                      Variables.start = start;
-                      Variables.end = end;
-                    });
-                  },
-                ),
+                //       Variables.start = start;
+                //       Variables.end = end;
+                //     });
+                //   },
+                // ),
                 SizedBox(height: Units.height(context) * 0.05),
                 InkWell(
                     onTap: () async {
@@ -317,7 +353,7 @@ class _HomeState extends State<Home> {
                               ));
                       await getRequest(country, crop, start, end);
                       // ignore: use_build_context_synchronously
-                      // Navigator.pop(context);
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => Results()),
