@@ -26,15 +26,26 @@ class Results extends StatefulWidget {
 
 class _ResultsState extends State<Results> {
   final Duration animDuration = const Duration(milliseconds: 250);
-
   int touchedIndex = -1;
-
-  bool isPlaying = false;
-
+  bool isPlaying = true;
   int len = 5;
   List temp = Variables.temp;
   List prod = Variables.production;
   int start = Variables.start;
+
+  @override
+  void initState() {
+    super.initState();
+    initiateAnim();
+  }
+
+  initiateAnim() async {
+    refreshState();
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      isPlaying = false;
+    });
+  }
 
   Widget data() {
     return Column(
@@ -132,7 +143,7 @@ class _ResultsState extends State<Results> {
                           setState(() {
                             isPlaying = !isPlaying;
                             if (isPlaying) {
-                              refreshState();
+                              initiateAnim();
                             }
                           });
                         },
@@ -211,21 +222,26 @@ class _ResultsState extends State<Results> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(5, (i) {
+        double limit = Variables.country == 'India'
+            ? 3.8
+            : Variables.country == 'Australia'
+                ? 1
+                : 9;
         switch (i) {
           case 0:
-            return makeGroupData(0, (prod[i] - 3.8) * 100000,
+            return makeGroupData(0, (prod[i] - limit) * 100000,
                 isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, (prod[i] - 3.8) * 100000,
+            return makeGroupData(1, (prod[i] - limit) * 100000,
                 isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, (prod[i] - 3.8) * 100000,
+            return makeGroupData(2, (prod[i] - limit) * 100000,
                 isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, (prod[i] - 3.8) * 100000,
+            return makeGroupData(3, (prod[i] - limit) * 100000,
                 isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, (prod[i] - 3.8) * 100000,
+            return makeGroupData(4, (prod[i] - limit) * 100000,
                 isTouched: i == touchedIndex);
 
           default:

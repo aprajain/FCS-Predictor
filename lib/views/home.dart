@@ -204,7 +204,7 @@ class _HomeState extends State<Home> {
                       enlargeCenterPage: true,
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enableInfiniteScroll: true,
-                      autoPlayAnimationDuration: Duration(milliseconds: 500),
+                      autoPlayAnimationDuration: Duration(milliseconds: 300),
                     ),
                     items: [
                       banner('images/crop1.jpg'),
